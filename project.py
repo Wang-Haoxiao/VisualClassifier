@@ -53,6 +53,7 @@ def train(X, y, classifier):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     # Define the pipeline
     pipeline = Pipeline(steps=[
+        ('scaler', StandardScaler()),
         ('preprocessor', PolynomialFeatures()),
         ('classifier', model_select[classifier])
     ])
@@ -79,6 +80,7 @@ def grid_searching(X,y,classifier):
 
     # Define the pipeline
     pipeline = Pipeline(steps=[
+        ('scaler', StandardScaler()),
         ('preprocessor', PolynomialFeatures()),
         ('classifier', Perceptron())
     ])
@@ -115,7 +117,7 @@ def grid_searching(X,y,classifier):
         "Logistic Regression":{
             'classifier': [LogisticRegression()],
             'classifier__C': [0.1, 1.0, 10.0],
-            'classifier__penalty': ['l1', 'l2']
+            'classifier__max_iter': [100, 200, 300]
         },
         "SVM":{
             'classifier': [SVC()],
