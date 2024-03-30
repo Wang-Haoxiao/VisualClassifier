@@ -3,33 +3,47 @@ import os
 import struct
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_openml
 
-def load_mnist(path, kind='train'):
-    labels_path = os.path.join(path, '%s-labels-idx1-ubyte' % kind)
-    images_path = os.path.join(path, '%s-images-idx3-ubyte' % kind)
+# def load_mnist(path, kind='train'):
+#     labels_path = os.path.join(path, '%s-labels-idx1-ubyte' % kind)
+#     images_path = os.path.join(path, '%s-images-idx3-ubyte' % kind)
 
-    with open(labels_path, 'rb') as lbpath:
-        magic, n = struct.unpack('>II', lbpath.read(8))
-        labels = np.fromfile(lbpath, dtype=np.uint8)
+#     with open(labels_path, 'rb') as lbpath:
+#         magic, n = struct.unpack('>II', lbpath.read(8))
+#         labels = np.fromfile(lbpath, dtype=np.uint8)
 
-    with open(images_path, 'rb') as imgpath:
-        magic, num, rows, cols = struct.unpack(">IIII", imgpath.read(16))
-        images = np.fromfile(imgpath, dtype=np.uint8).reshape(len(labels), 784)
+#     with open(images_path, 'rb') as imgpath:
+#         magic, num, rows, cols = struct.unpack(">IIII", imgpath.read(16))
+#         images = np.fromfile(imgpath, dtype=np.uint8).reshape(len(labels), 784)
 
-    return images, labels
+#     return images, labels
 
+# # print(os.listdir("../archive"))
+# X_train, y_train = load_mnist('../archive', kind='train')
+# X_test, y_test = load_mnist('../archive', kind='t10k')
 
-X_train, y_train = load_mnist('C:/Users/Nours/PycharmProjects/DeepLearning/', kind='train')
-X_test, y_test = load_mnist('C:/Users/Nours/PycharmProjects/DeepLearning/', kind='t10k')
+from sklearn.datasets import fetch_openml
 
+mnist = fetch_openml('mnist_784')
+X, y = mnist["data"].to_numpy(), mnist["target"].to_numpy()
+X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
 
+# print(y_train)
+# print(y_test)
+
+y_train = y_train.astype(np.int)
+y_test = y_test.astype(np.int)
+
+print(y_train)
+print(y_test)
 
 nn = MLP.NeuralNetMLP(n_output=10,
                   n_features=X_train.shape[1],
                   n_hidden=50,
                   l2=0.1,
                   l1=0.1,
-                  epochs=1000,
+                  epochs=100,
                   eta=0.001,
                   alpha=0.001,
                   decrease_const=0.00001,
