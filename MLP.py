@@ -155,9 +155,11 @@ class NeuralNetMLP(object):
             Activation of output layer.
 
         """
-        print(X.shape)
-        print(X)
+        # print(X.shape)
+        # print(X)
         a1 = self._add_bias_unit(X, how='column')
+        # print(a1.shape)
+        # print(w1.shape)
         z2 = w1.dot(a1.T)
         # 1. add ReLU
         # Different activation functions can be selected
@@ -257,6 +259,8 @@ class NeuralNetMLP(object):
 
         sigma2 = sigma2[1:, :]
         grad1 = sigma2.dot(a1)
+        # print(a2.T.shape)
+        # print("sigma3=", sigma3.shape)
         grad2 = sigma3.dot(a2.T)
 
         # regularize
@@ -335,7 +339,7 @@ class NeuralNetMLP(object):
             mini = np.array_split(range(y_data.shape[0]),
                                   self.minibatches)  # Si le mode minibatch est activé, le dataset en entrée est divisé en batch pour le calcul des gradients
             for idx in mini:
-                print("idx=", idx)
+                # print("idx=", idx)
                 # feedforward
                 a1, z2, a2, z3, a3 = self._feedforward(X_data[idx], self.w1,
                                                        self.w2)  # Ce que nous avons vu jusqu'à présent
