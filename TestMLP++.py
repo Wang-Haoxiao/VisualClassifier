@@ -10,7 +10,7 @@ X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
 y_train = y_train.astype(np.int)
 y_test = y_test.astype(np.int)
 
-layers = [X_train.shape[1], 50, 50, 10]  # 784个输入特征，两个隐藏层（每层50个神经元），10个输出
+layers = [X_train.shape[1], 50, 50, 10]  
 
 nn = MLP2.NeuralNetMLP2(n_output=10,
                   n_features=X_train.shape[1],
